@@ -172,12 +172,12 @@ Resources:
             RestApiId:
               Ref: ApiGatewayApi
 
-  putUniversitySubmission:
+  putSubmission:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs12.x
       Handler: index.handler
-      CodeUri: ./dist/putUniversitySubmission
+      CodeUri: ./dist/putSubmission
       MemorySize: 128
       Timeout: 29
       Role: !GetAtt THEExecutionRole.Arn
@@ -185,7 +185,7 @@ Resources:
         ApiEvent:
           Type: Api
           Properties:
-            Path: /put-university-submission
+            Path: /put-submission
             Method: post
             RestApiId:
               Ref: ApiGatewayApi
