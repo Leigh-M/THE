@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'DWP test: create API to return local and radial distance from given City AWS Serverless Application'
+
+# yaml required for local debugging only
+Resources:
+    # lambdas
+    getSwaggerDocument:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: getSwaggerDocument
+            Handler: ./handlers/getSwaggerDocument/index.handler
+            Runtime: nodejs10.x # nodejs12.x not currently supported with SAM local for local debugging
+            Description: 'Returns OpenAPI / Swagger document for the THE demo API'
+            MemorySize: 128
+            Timeout: 30
+
+    getUniversityData:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: getUniversityData
+            Handler: ./handlers/getUniversityData/index.handler
+            Runtime: nodejs10.x
+            Description: 'Returns all Universities JSON data from Universities DynamoDB table'
+            MemorySize: 128
+            Timeout: 30
+
+    postUniversityData:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: postUniversityData
+            Handler: ./handlers/postUniversityData/index.handler
+            Runtime: nodejs10.x
+            Description: 'Create new entry on Universities DynamoDB table'
+            MemorySize: 128
+            Timeout: 30

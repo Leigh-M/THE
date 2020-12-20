@@ -1,0 +1,191 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template for THE tech quiz provisioning DynamoDB table, API Gateway backed by lambdas 
+
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: v1
+
+  # roles
+  THEExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+      RoleName: THEExecutionRole
+
+  # policies
+  THELambdaPolicy:
+    Type: AWS::IAM::Policy
+    DependsOn: THEExecutionRole
+    Properties:
+        PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+                -
+                    Effect: Allow
+                    Action:
+                        - dynamodb:PutItem
+                        - dynamodb:UpdateItem
+                        - dynamodb:DeleteItem
+                        - dynamodb:GetItem
+                        - dynamodb:BatchGetItem
+                        - dynamodb:Scan
+                        - dynamodb:Query
+                    Resource: '*' # Todo - restrict resource permissions to only those required
+                -
+                    Effect: Allow
+                    Action:
+                        - s3:GetObject
+                    Resource: '*'
+                -
+                    Effect: Allow
+                    Action:
+                        - logs:CreateLogGroup
+                        - logs:CreateLogStream
+                        - logs:DescribeLogStreams
+                        - logs:PutLogEvents
+                    Resource: '*'
+        PolicyName: THELambdaPolicy
+        Roles:
+            -
+                Ref: THEExecutionRole
+
+  # dyanomoDB tables
+    Universities:
+      Type: AWS::DynamoDB::Table
+      Properties:
+          TableName: !Sub '${AWS::StackName}-Universities'
+          ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
+          AttributeDefinitions:
+              -
+                  AttributeName: institutionId
+                  AttributeType: S
+              -
+                  AttributeName: year
+                  AttributeType: S
+              -
+          KeySchema:
+              -
+                  AttributeName: institutionId
+                  KeyType: HASH
+              -
+                  AttributeName: year
+                  KeyType: RANGE
+          GlobalSecondaryIndexes: 
+                  - 
+                      IndexName: byStudentsTotal
+                      ProvisionedThroughput:
+                          ReadCapacityUnits: 5
+                          WriteCapacityUnits: 5
+                      KeySchema:
+                          - 
+                              AttributeName: studentsTotal
+                              KeyType: HASH
+                      Projection:
+                          ProjectionType: "ALL"
+                  - 
+                      IndexName: byStaffTotal
+                      ProvisionedThroughput:
+                          ReadCapacityUnits: 5
+                          WriteCapacityUnits: 5
+                      KeySchema:
+                          - 
+                              AttributeName: staffTotal
+                              KeyType: HASH
+                      Projection:
+                          ProjectionType: "ALL"
+                  - 
+                      IndexName: byInstitutionIncome
+                      ProvisionedThroughput:
+                          ReadCapacityUnits: 5
+                          WriteCapacityUnits: 5
+                      KeySchema:
+                          - 
+                              AttributeName: institutionIncome
+                              KeyType: HASH
+                      Projection:
+                          ProjectionType: "ALL"
+
+  getSwaggerDocument: # expose swagger documentation via api endpoint at root "/"
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs12.x
+      Handler: index.handler
+      CodeUri: ./dist/getSwaggerDocument
+      MemorySize: 128
+      Timeout: 29
+      Role: !GetAtt THEExecutionRole.Arn
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+
+  getUniversityData: # map api route to lambda function
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs12.x
+      Handler: index.handler
+      CodeUri: ./dist/getUniversityData
+      MemorySize: 128
+      Timeout: 29
+      Role: !GetAtt THEExecutionRole.Arn
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /get-university-data
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+
+  putUniversity:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs12.x
+      Handler: index.handler
+      CodeUri: ./dist/putUniversity
+      MemorySize: 128
+      Timeout: 29
+      Role: !GetAtt THEExecutionRole.Arn
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /put-university
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+
+  putUniversitySubmission:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs12.x
+      Handler: index.handler
+      CodeUri: ./dist/putUniversitySubmission
+      MemorySize: 128
+      Timeout: 29
+      Role: !GetAtt THEExecutionRole.Arn
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /put-university-submission
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
