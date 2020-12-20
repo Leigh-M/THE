@@ -1,0 +1,27 @@
+# On commiting to gitlab, these tasks will run concurrently to run tests & lint in docker containers
+stages:
+    - testsAndLint
+
+test:
+  stage: testsAndLint
+  image: node:12
+  before_script:
+    - apt update
+    - npm install
+  script:
+    - npm run test
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^WIP/ # do not run this job on a WIP commit
+
+lint:
+    stage: testsAndLint
+    image: node:12
+    before_script:
+      - apt update
+      - npm install
+    script:
+      - npm run lint
+    except:
+      variables:
+        - $CI_COMMIT_MESSAGE =~ /^WIP/
