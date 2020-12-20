@@ -1,12 +1,11 @@
 exports.handler = (event, context, callback) => {
-    try {
-        (async () => {
-            // ToDo
-            console.log('Correctly ran putSubmission')
-
-            callback(null, 'Some data successfuly put');
-        })();
-    } catch (error) {
-        callback(error);
+    const response = {
+        body: 'Some data successfuly put',
+        headers: {
+            'Content-Type': 'text/plain'
+        },
+        statusCode: 200
     };
+
+    callback(null, JSON.stringify(response));
 };

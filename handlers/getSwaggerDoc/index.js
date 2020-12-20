@@ -8,7 +8,8 @@ exports.handler = (event, context, callback) => {
         headers: {
             'Content-Type': 'text/plain'
         },
-        statusCode: 200
+        statusCode: 200,
+        isBase64Encoded: false
     };
 
     callback(null, response);

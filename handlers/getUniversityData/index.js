@@ -1,12 +1,14 @@
 exports.handler = (event, context, callback) => {
-    try {
-        (async () => {
-            // ToDo
-            console.log('Correctly ran getUniversityData')
+    console.log('Correctly ran getUniversityData');
 
-            callback(null, 'Some data successfuly fetched');
-        })();
-    } catch (error) {
-        callback(error);
+    const response = {
+        body: JSON.stringify('Some data successfuly fetched'),
+        headers: {
+            'Content-Type': 'text/plain'
+        },
+        statusCode: 200,
+        isBase64Encoded: false
     };
+
+    callback(null, response);
 };
