@@ -1,0 +1,12 @@
+
+    Hash key         Range key
+ institutionId          Year
+
+Additional attributes:
+	studentsTotal
+	undergraduatesTotal
+	postgraduatesTotal
+	staffTotal
+	academicPapers
+	institutionIncome
+	subjects
