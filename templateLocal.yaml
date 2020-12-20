@@ -5,11 +5,11 @@ Description: 'DWP test: create API to return local and radial distance from give
 # yaml required for local debugging only
 Resources:
     # lambdas
-    getSwaggerDocument:
+    getSwaggerDoc:
         Type: AWS::Serverless::Function
         Properties:
-            FunctionName: getSwaggerDocument
-            Handler: ./handlers/getSwaggerDocument/index.handler
+            FunctionName: getSwaggerDoc
+            Handler: ./handlers/getSwaggerDoc/index.handler
             Runtime: nodejs10.x # nodejs12.x not currently supported with SAM local for local debugging
             Description: 'Returns OpenAPI / Swagger document for the THE demo API'
             MemorySize: 128
@@ -25,12 +25,22 @@ Resources:
             MemorySize: 128
             Timeout: 30
 
-    postUniversityData:
+    putUniversity:
         Type: AWS::Serverless::Function
         Properties:
-            FunctionName: postUniversityData
-            Handler: ./handlers/postUniversityData/index.handler
+            FunctionName: postUniversity
+            Handler: ./handlers/postUniversity/index.handler
             Runtime: nodejs10.x
-            Description: 'Create new entry on Universities DynamoDB table'
+            Description: 'Create new university on Universities DynamoDB table'
+            MemorySize: 128
+            Timeout: 30
+
+    putSubmission:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: putSubmission
+            Handler: ./handlers/putSubmission/index.handler
+            Runtime: nodejs10.x
+            Description: 'Create new submission on Universities DynamoDB table'
             MemorySize: 128
             Timeout: 30

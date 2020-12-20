@@ -1,6 +1,6 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: AWS SAM template for THE tech quiz provisioning DynamoDB table, API Gateway backed by lambdas 
+Description: AWS SAM template for THE tech puzzle provisioning DynamoDB table, API Gateway and corresponding lambdas
 
 Resources:
   ApiGatewayApi:
@@ -13,10 +13,9 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
-          -
-            Action: sts:AssumeRole
+          - Action: sts:AssumeRole
             Effect: Allow
             Principal:
               Service:
@@ -26,104 +25,94 @@ Resources:
   # policies
   THELambdaPolicy:
     Type: AWS::IAM::Policy
-    DependsOn: THEExecutionRole
     Properties:
-        PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-                -
-                    Effect: Allow
-                    Action:
-                        - dynamodb:PutItem
-                        - dynamodb:UpdateItem
-                        - dynamodb:DeleteItem
-                        - dynamodb:GetItem
-                        - dynamodb:BatchGetItem
-                        - dynamodb:Scan
-                        - dynamodb:Query
-                    Resource: '*' # Todo - restrict resource permissions to only those required
-                -
-                    Effect: Allow
-                    Action:
-                        - s3:GetObject
-                    Resource: '*'
-                -
-                    Effect: Allow
-                    Action:
-                        - logs:CreateLogGroup
-                        - logs:CreateLogStream
-                        - logs:DescribeLogStreams
-                        - logs:PutLogEvents
-                    Resource: '*'
-        PolicyName: THELambdaPolicy
-        Roles:
-            -
-                Ref: THEExecutionRole
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+              - dynamodb:GetItem
+              - dynamodb:BatchGetItem
+              - dynamodb:Scan
+              - dynamodb:Query
+            Resource: "*" # Todo - restrict resource permissions to only those required
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:DescribeLogStreams
+              - logs:PutLogEvents
+            Resource: "*"
+      PolicyName: THELambdaPolicy
+      Roles:
+        - Ref: THEExecutionRole
 
   # dyanomoDB tables
-    Universities:
-      Type: AWS::DynamoDB::Table
-      Properties:
-          TableName: !Sub '${AWS::StackName}-Universities'
+  Universities:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${AWS::StackName}-Universities"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      AttributeDefinitions:
+        - AttributeName: institutionId
+          AttributeType: S
+        - AttributeName: year
+          AttributeType: S
+        - AttributeName: studentsTotal
+          AttributeType: S
+        - AttributeName: staffTotal
+          AttributeType: S
+        - AttributeName: institutionIncome
+          AttributeType: S
+      KeySchema:
+        - AttributeName: institutionId
+          KeyType: HASH
+        - AttributeName: year
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: byStudentsTotal
           ProvisionedThroughput:
-              ReadCapacityUnits: 5
-              WriteCapacityUnits: 5
-          AttributeDefinitions:
-              -
-                  AttributeName: institutionId
-                  AttributeType: S
-              -
-                  AttributeName: year
-                  AttributeType: S
-              -
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
           KeySchema:
-              -
-                  AttributeName: institutionId
-                  KeyType: HASH
-              -
-                  AttributeName: year
-                  KeyType: RANGE
-          GlobalSecondaryIndexes: 
-                  - 
-                      IndexName: byStudentsTotal
-                      ProvisionedThroughput:
-                          ReadCapacityUnits: 5
-                          WriteCapacityUnits: 5
-                      KeySchema:
-                          - 
-                              AttributeName: studentsTotal
-                              KeyType: HASH
-                      Projection:
-                          ProjectionType: "ALL"
-                  - 
-                      IndexName: byStaffTotal
-                      ProvisionedThroughput:
-                          ReadCapacityUnits: 5
-                          WriteCapacityUnits: 5
-                      KeySchema:
-                          - 
-                              AttributeName: staffTotal
-                              KeyType: HASH
-                      Projection:
-                          ProjectionType: "ALL"
-                  - 
-                      IndexName: byInstitutionIncome
-                      ProvisionedThroughput:
-                          ReadCapacityUnits: 5
-                          WriteCapacityUnits: 5
-                      KeySchema:
-                          - 
-                              AttributeName: institutionIncome
-                              KeyType: HASH
-                      Projection:
-                          ProjectionType: "ALL"
+            - AttributeName: studentsTotal
+              KeyType: HASH
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: byStaffTotal
+          ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
+          KeySchema:
+            - AttributeName: staffTotal
+              KeyType: HASH
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: byInstitutionIncome
+          ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
+          KeySchema:
+            - AttributeName: institutionIncome
+              KeyType: HASH
+          Projection:
+            ProjectionType: "ALL"
 
-  getSwaggerDocument: # expose swagger documentation via api endpoint at root "/"
+  getSwaggerDoc: # expose swagger documentation via api endpoint at root "/"
     Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs12.x
       Handler: index.handler
-      CodeUri: ./dist/getSwaggerDocument
+      CodeUri: ./dist/getSwaggerDoc
       MemorySize: 128
       Timeout: 29
       Role: !GetAtt THEExecutionRole.Arn
@@ -133,8 +122,7 @@ Resources:
           Properties:
             Path: /
             Method: get
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
 
   getUniversityData: # map api route to lambda function
     Type: AWS::Serverless::Function
@@ -168,7 +156,7 @@ Resources:
           Type: Api
           Properties:
             Path: /put-university
-            Method: post
+            Method: put
             RestApiId:
               Ref: ApiGatewayApi
 
@@ -186,6 +174,6 @@ Resources:
           Type: Api
           Properties:
             Path: /put-submission
-            Method: post
+            Method: put
             RestApiId:
               Ref: ApiGatewayApi
