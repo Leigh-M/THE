@@ -1,4 +1,4 @@
-## THE tech puzzle - Solution
+## THE tech puzzle
 ### The task, optionally:
   Look at the data and see how it could be enhanced or what insights could be gained from it:
   - Produce a list of the best institutions to study a particular subject
@@ -17,24 +17,26 @@
   - Create an API that would be able to serve the data to a frontend to render
   - Setup storage mechanism to store the data and allow for adding new data (rather than using static JSON files)
 
+  - also: reset table data to original structure
+
   Frontend tasks completed:
-    - Display some submission data per institution for each year in either a table or chart
+    - Display some submission data per institution for each year in either a table or chart (React app with tabular view)
 
-Please see /architecture folder for overview of architecture (.png format saved, however original draw.io files included. View/ edit originals via web interface or free desktop download at draw.io)
+Please see /architecture folder for overview of solutions (.png format saved, however original draw.io files included. You may view/ edit originals via web interface or desktop (free) download at draw.io)
 
-There is a production grade solution architecture, and this repo contains a more simple (rapid prototype) version just for sample code, approach and style.
+There is a production grade solution architecture, and this repo contains a more simple (rapid prototype) version to demonstrate sample code, approach and style.
 
-This solution is currently deployed however is provisioned with SAM/ (CloudFormation) and is now portable, please find instructions how to provision this on THE or personal AWS accounts below, please feel free to re-use any code if required in future projects! :-)
+This solution is currently deployed on my personal AWS account, however as it was provisioned via SAM/ (CloudFormation - infrastructure as Code (IaC)) it is now fully portable & re-usable/ re-deployable to any AWS account. Please find instructions how to provision this on THE or your personal AWS accounts below. Please feel free to re-use any code you may like if required in future projects
 
-### Also please review template.yaml
-This should give the best overview of the resources provisioned by the API, routes exposed and lambdas (purely proxy lambdas currently, ie no integrity checking or manipulation of data in/ out of the lambda by API Gateway) backing those routes
+### Also please review the template.yaml
+This should give an easy overview of the resources provisioned including API Gateway routes exposed, lambdas (purely proxy lambdas currently, ie no integrity checking or manipulation of data in/ out of the lambda by API Gateway) backing those routes and DynamoDB table/ indexes provisioned
 
-The endpoints exposed in this deployment so you can navigate to those directly are below:
+Just for ease, the endpoints exposed in this deployment so you can navigate to those directly are below:
 
 Swagger documentation placed at the root:
 https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/v1
 
-Fetch all data:
+Fetch all university data:
 https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/v1/get-university-data
 
 Reset data to original:
@@ -43,8 +45,7 @@ https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/reset-data
 Upload data:
 https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/upload-university-data
 
-Or for API access or curl for example:
-  `$ curl --request GET https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/v1`
+Or for external API access or curl for example: `$ curl --request GET https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/v1`
 
 ### To run unit tests, lint and check unit test coverage
 `npm run test`
@@ -57,7 +58,7 @@ An AWS account and S3 bucket (for data and bundled artifacts) N.b S3 bucket name
 aws-cli installed
 
 Optionally: AWS SAM cli (https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-linux.html)
-(SAM -> shorthand; AWS CloudFormation longhand)
+(SAM cli provides shorthand syntax and local invocation of lambdas for development & testing. AWS CloudFormation is the longhand version, used for EC2/ server based dIaC)
 
 #### To Deploy:
 Clone the repo: `git clone https://github.com/Leigh-M/THE.git`
