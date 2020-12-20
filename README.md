@@ -34,16 +34,16 @@ This should give an easy overview of the resources provisioned including API Gat
 Just for ease, the endpoints exposed in this deployment so you can navigate to those directly are below:
 
 Swagger documentation placed at the root:
-https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/v1
+https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/v1
 
 Fetch all university data:
-https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/v1/get-university-data
+https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/v1/get-university-data
 
-Reset data to original:
-https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/reset-data
+Put new university:
+https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/put-university
 
-Upload data:
-https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/upload-university-data
+Put new submission:
+https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/put-submission
 
 Or for external API access or curl for example: `$ curl --request GET https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/v1`
 
@@ -58,7 +58,7 @@ An AWS account and S3 bucket (for data and bundled artifacts) N.b S3 bucket name
 aws-cli installed
 
 Optionally: AWS SAM cli (https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-linux.html)
-(SAM cli provides shorthand syntax and local invocation of lambdas for development & testing. AWS CloudFormation is the longhand version, used for EC2/ server based dIaC)
+(SAM cli provides better CLI feedback and enables local invocation of lambdas for development & testing. AWS CloudFormation is required for EC2/ server based IaC)
 
 #### To Deploy:
 Clone the repo: `git clone https://github.com/Leigh-M/THE.git`
@@ -66,14 +66,13 @@ Clone the repo: `git clone https://github.com/Leigh-M/THE.git`
 `npm i`
 `npm run build`
 
+With SAM installed:
+`sam package --s3-bucket {your-zipped-artifacts-unique-s3-bucket} --template template.yaml --output-template-file templateOut.yaml`
+`sam deploy --template-file templateOut.yaml --stack-name {your-stack-name} --capabilities CAPABILITY_NAMED_IAM --region eu-west-2`
+
 If SAM not installed:
 `aws cloudformation package --s3-bucket {your-zipped-artifacts-unique-s3-bucket} --template template.yaml --output-template-file templateOut.yaml`
-
-`aws cloudformation deploy --template-file templateOut.yaml --stack-name {your-stack-name} --capabilities CAPABILITY_IAM --region eu-west-2`
-
-With SAM is installed you may:
-`SAM package`
-`SAM deploy`
+`aws cloudformation deploy --template-file templateOut.yaml --stack-name {your-stack-name} --capabilities CAPABILITY_NAMED_IAM --region eu-west-2`
 
 Webpack bundles the dependencies (toDo: spike to investigate webpack tree-shaking to ensure minimal dependencies installed)
 
@@ -102,14 +101,12 @@ VSCode launch config:
 }
 ```
 Usage: add breakpoint then:
-`sam local invoke getRadialResidents -t templateLocal.yaml --no-event -d 5858`
+`sam local invoke getSwaggerDoc -t templateLocal.yaml --no-event -d 5858`
 
 Then press F5
 
-Remove -d flag to run without debugging
-
-You may optionally include additional flag: `--skip-pull-image` to speed up docker loading post-initial pull of image:
-`sam local invoke getRadialResidents -t templateLocal.yaml --no-event -d 5858 --skip-pull-image`
+Remove -d flag to run locally without debugging
+N.b local lambdas still interact with AWS services in the Cloud
 
 ### ToDos
 Given more time would like to do:
