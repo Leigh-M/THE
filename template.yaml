@@ -11,6 +11,7 @@ Resources:
         DefaultAuthorizer:
           NONE
       Cors:
+        AllowHeaders: '*'
         AllowMethods: 'OPTIONS, GET, PUT, POST'
         AllowOrigin: 'http://the-ui.s3-website.eu-west-2.amazonaws.com'
 
@@ -123,11 +124,17 @@ Resources:
       Timeout: 29
       Role: !GetAtt THEExecutionRole.Arn
       Events:
-        ApiEvent:
+        ApiGetEvent:
           Type: Api
           Properties:
             Path: /
-            Method: get
+            Method: 'GET'
+            RestApiId: !Ref ApiGatewayApi
+        ApiOptionsEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: 'OPTIONS'
             RestApiId: !Ref ApiGatewayApi
 
   getUniversityData: # map api route to lambda function
@@ -140,13 +147,19 @@ Resources:
       Timeout: 29
       Role: !GetAtt THEExecutionRole.Arn
       Events:
-        ApiEvent:
-          Type: Api
-          Properties:
-            Path: /get-university-data
-            Method: get
-            RestApiId:
-              Ref: ApiGatewayApi
+        ApiGetEvent:
+            Type: Api
+            Properties:
+              Path: /get-university-data
+              Method: 'GET'
+              RestApiId:
+                Ref: ApiGatewayApi
+        ApiOptionsEvent:
+            Type: Api
+            Properties:
+              Path: /get-university-data
+              Method: 'OPTIONS'
+              RestApiId: !Ref ApiGatewayApi
 
   putUniversity:
     Type: AWS::Serverless::Function
@@ -158,13 +171,20 @@ Resources:
       Timeout: 29
       Role: !GetAtt THEExecutionRole.Arn
       Events:
-        ApiEvent:
-          Type: Api
-          Properties:
-            Path: /put-university
-            Method: put
-            RestApiId:
-              Ref: ApiGatewayApi
+        ApiPutEvent:
+            Type: Api
+            Properties:
+              Path: /put-university
+              Method: 'PUT'
+              RestApiId:
+                Ref: ApiGatewayApi
+        ApiOptionsEvent:
+            Type: Api
+            Properties:
+              Path: /put-university
+              Method: 'OPTIONS'
+              RestApiId:
+                Ref: ApiGatewayApi
 
   putSubmission:
     Type: AWS::Serverless::Function
@@ -176,10 +196,17 @@ Resources:
       Timeout: 29
       Role: !GetAtt THEExecutionRole.Arn
       Events:
-        ApiEvent:
-          Type: Api
-          Properties:
-            Path: /put-submission
-            Method: put
-            RestApiId:
-              Ref: ApiGatewayApi
+        ApiPutEvent:
+            Type: Api
+            Properties:
+              Path: /put-submission
+              Method: 'PUT'
+              RestApiId:
+                Ref: ApiGatewayApi
+        ApiOptionsEvent:
+            Type: Api
+            Properties:
+              Path: /put-submission
+              Method: 'OPTIONS'
+              RestApiId:
+                Ref: ApiGatewayApi
