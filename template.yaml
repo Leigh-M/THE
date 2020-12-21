@@ -7,6 +7,12 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: v1
+      Auth:
+        DefaultAuthorizer:
+          NONE
+      Cors:
+        AllowMethods: 'OPTIONS, GET, PUT, POST'
+        AllowOrigin: 'http://the-ui.s3-website.eu-west-2.amazonaws.com'
 
   # roles
   THEExecutionRole:
