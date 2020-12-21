@@ -40,15 +40,15 @@ Fetch all university data:
 https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/v1/get-university-data
 
 Put new university:
-https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/put-university
+# Todo https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/put-university
 
 Put new submission:
-https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/put-submission
+# Todo https://5bu98i38l9.execute-api.eu-west-2.amazonaws.com/put-submission
 
 Or for external API access or curl for example: `$ curl --request GET https://rsmopi0xmg.execute-api.eu-west-2.amazonaws.com/v1`
 
 ### To run unit tests, lint and check unit test coverage
-`npm run test`
+# Todo! Add some tests! `npm run test`
 `npm run lint`
 `npm run coverage`
 
