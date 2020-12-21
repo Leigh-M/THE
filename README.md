@@ -109,11 +109,11 @@ Remove -d flag to run locally without debugging
 N.b local lambdas still interact with AWS services in the Cloud
 
 ### ToDos
-Given more time would like to do:
+I ran out of time unfortunately after provisioing infrastructure in SAM Template format, fairly detailed docs (readme) and 2 architecture diags - hopefully this shows approach and attention to detail, but I agree does not demonstrate code data and especially data model to efficiently interact with the data - my first goto place is usually DynamoDB (purely from experience with it) most things can be done in a single table (and replication of data) however in this case I would probably rethink and go for RDS (with Universities table and Subscriptions table) I have experience in Oracle mostly (although most SQL based DBs are similar) so OracleDB driver (I posted a solution on stackoverflow for correct setup process it can be a bit fiddly first time) - so although I have (I hope!) demonstrated knowledge on AWS/ Archtecture will be some areas we'd need to cover in more detail I suspect (eg TDD style etc - but I do have some sample code for that) modularization (I always maintain correct abstraction layers and try not to mix (eg: modularize some code but not others areas) that can be when it looks slightly unfinished to me)
 
 Build in TS (Rapid prototyping (at my TS experience level) more efficiently done in JS/ nodeJs)
 Add more unit tests - an example of style can be seen though
-Improve error handling to guard against unexpected responses, network or transient errors
+Add error handling to guard against unexpected responses, network or transient errors
 Add documentation/ param & return type hints on functions - jsDocs (although TS would solve much of that)
 Expand routes with dynamic requests/ stage variables
 Consider integration and end-to-end tests
@@ -121,4 +121,4 @@ Consider integration and end-to-end tests
 ### Comments
 Usually comments should be kept to a minimum but still used where appropriate, in favour of clear naming conventions and clarity in code/ composition of software, as per 'Clean Code' book, but I have included more here than usual to explain approach
 
-Thank you for reviewing - any suggestions on improvements gratefully received!
+Thank you for reviewing - suggestions on improvements gratefully received!
