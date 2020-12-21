@@ -66,13 +66,13 @@ Resources:
         - AttributeName: institutionId
           AttributeType: S
         - AttributeName: year
-          AttributeType: S
+          AttributeType: N
         - AttributeName: studentsTotal
-          AttributeType: S
+          AttributeType: N
         - AttributeName: staffTotal
-          AttributeType: S
+          AttributeType: N
         - AttributeName: institutionIncome
-          AttributeType: S
+          AttributeType: N
       KeySchema:
         - AttributeName: institutionId
           KeyType: HASH
