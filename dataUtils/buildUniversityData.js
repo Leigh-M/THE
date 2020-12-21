@@ -6,7 +6,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 const putParams = {
     TableName: 'THE-Universities',
     Item: {
-        institutionId: 'some Id',
+        institutionId: '100',
         year: 2000
      }
 };

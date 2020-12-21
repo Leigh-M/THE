@@ -15,4 +15,3 @@ Costs should include: full degree tuition fees + living cost (housing/ rent/ uti
 12. Study metrics of what best (& worst) unis are doing differently now, or what they were doing differently from the 'average' 1-5yrs ago to generate indicators for future performance. Present to students and sell to Unis to inform decisions & either expand in that direction/ or head off/ improve performance before they continue too far down a known (from other Uni metrics) trajectory. (Eg, lecturer numbers consistently falling. Tuition fees increasing more than services. Stufent accomodation/ housing reports of poor/ dilapidated services, if unresolved may lead to..)
 13. Part time/ or full time post-grad employment opportunities in the area
 14. Investment initiatives including upcoming Government regeneration schemes in the area, metrics on how that affects (benefits) students and Uni rankings/ student satisfaction levels
-
