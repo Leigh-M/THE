@@ -14,9 +14,9 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: eu-west-2
-      - run: npm i
-      - run: npm run test
-      - run: npm run lint
+    - run: npm i
+    - run: npm run test
+    - run: npm run lint
 
 # ToDo - deploy to dev & deploy to prod on tag
 
