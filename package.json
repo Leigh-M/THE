@@ -6,7 +6,9 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "eslint \"handlers/**/*.js\"",
-    "build": "node scripts/build"
+    "build": "node scripts/build",
+    "package": "aws cloudformation package --s3-bucket the-artifacts --template template.yaml --output-template-file templateOut.yaml",
+    "deploy": "aws cloudformation deploy --template-file templateOut.yaml --stack-name THE --capabilities CAPABILITY_NAMED_IAM --region eu-west-2"
   },
   "author": "Leigh Mathieson",
   "license": "ISC",
