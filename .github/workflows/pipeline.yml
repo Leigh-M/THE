@@ -12,7 +12,7 @@ jobs:
     - run: npm run test
     - run: npm run lint
 
-# ToDo - deploy to dev & deploy to prod on tag
+# ToDo - deploy to dev & deploy to prod on tag  
 
 # name: deploy to prod on tag
 # on:
