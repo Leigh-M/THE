@@ -8,7 +8,6 @@ jobs:
   test_and_lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Use Node.js 14.x
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
