@@ -7,9 +7,6 @@ on:
 jobs:
   test_and_lint:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x, 15.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js 14.x
@@ -20,9 +17,9 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: eu-west-2
-    - run: npm i
-    - run: npm run test
-    - run: npm run lint
+      run: npm i
+      run: npm run test
+      run: npm run lint
 
 # ToDo - deploy to dev & deploy to prod on tag
 
