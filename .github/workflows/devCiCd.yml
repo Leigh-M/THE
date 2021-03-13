@@ -1,0 +1,39 @@
+name: Test, Lint & Deploy to Dev
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v2
+    - name: install dependencies
+      run: npm i
+    - name: run unit tests
+      run: npm run test
+    - name: check linting
+      run: npm run lint
+
+  # dev_deploy:
+  #   needs: [test_and_lint]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: actions/setup-node@v1
+  #     with:
+  #       node-version: '14.x'
+  #   - run: npm i
+  #   - run: npm run build
+  #   - uses: r0zar/sam-deploy-action@v1.4
+  #     env:
+  #       AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
+  #       AWS_SECRET_ACCESS_KEY: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
+  #       TEMPLATE: 'template.yaml'
+  #       AWS_STACK_NAME: THE
+  #       AWS_REGION: 'eu-west-2'
+  #       AWS_DEPLOY_BUCKET: 'the-artifacts'
+  #       CAPABILITIES: 'CAPABILITY_NAMED_IAM'
