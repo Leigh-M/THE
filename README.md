@@ -80,6 +80,8 @@ The provisioned endpoints/ URI should now be available for you to see within the
 
 ### CI/CD pipeline included
 As an example included is a Gitlab .yml file which runs unit tests and linting on each commit, aside from WIP commits
+Also 2 example github actions workflows, which run tests, lint and deploy to dev on any push or pull to/ from master
+And will deploy to prod on any tag that is pushed
 
 ### To debug locally
 VSCode launch config:
