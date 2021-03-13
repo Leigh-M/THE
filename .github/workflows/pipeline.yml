@@ -29,6 +29,7 @@ jobs:
       with:
         node-version: '14.x'
     - run: npm i
+    - run: npm run build
     - uses: r0zar/sam-deploy-action@v1.4
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
