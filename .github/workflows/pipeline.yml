@@ -11,10 +11,10 @@ jobs:
     steps:
     - name: Checkout commit
       uses: actions/checkout@v2
+    - name: install dependencies
+      run: npm i
     - name: run unit tests
-      run: |
-        npm i
-        npm run test
+      run: npm run test
     - name: check linting
       run: npm run lint
 
