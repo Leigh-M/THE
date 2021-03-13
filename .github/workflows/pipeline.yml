@@ -10,14 +10,15 @@ jobs:
     steps:
     - name: Checkout commit
       uses: actions/checkout@v2
-    - name: Use Node.js 14.x
+    - name: test_and_lint
       # env:
       #   AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
       #   AWS_SECRET_ACCESS_KEY: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
       #   AWS_DEFAULT_REGION: 'eu-west-2'
-      run: npm i
-        # npm run test
-        # npm run lint
+      run: |
+        npm i
+        npm run test
+        npm run lint
 
 # ToDo - deploy to dev & deploy to prod on tag
 
