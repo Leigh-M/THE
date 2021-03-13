@@ -19,6 +19,7 @@ jobs:
       run: npm run lint
 
   deploy:
+    needs: [test_and_lint]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -36,19 +37,3 @@ jobs:
         AWS_REGION: 'eu-west-2'
         AWS_DEPLOY_BUCKET: 'the-artifacts'
         CAPABILITIES: 'CAPABILITY_NAMED_IAM'
-
-# ToDo - deploy to dev & deploy to prod on tag
-
-# name: deploy to prod on tag
-# on:
-#   push:
-#     tags:
-#       - "*"
-# jobs:
-#   test_and_lint:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         node-version: [14.x]
-#     steps:
-#     - run: echo "Branch is tagged!"
