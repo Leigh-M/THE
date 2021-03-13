@@ -83,6 +83,11 @@ As an example included is a Gitlab .yml file which runs unit tests and linting o
 Also 2 example github actions workflows, which run tests, lint and deploy to dev on any push or pull to/ from master
 And will deploy to prod on any tag that is pushed
 
+Add a tag to the repo with: `git tag 2021-13-3-v1.0`
+Push the tag to remote with: `git push https://github.com/Leigh-M/THE.git 2021-13-3-v1.0`
+
+To find your repo's remote URL name the first time use: `git config --get remote.origin.url`
+
 ### To debug locally
 VSCode launch config:
 
