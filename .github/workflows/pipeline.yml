@@ -10,17 +10,19 @@ jobs:
     steps:
     - name: Checkout commit
       uses: actions/checkout@v2
-    - name: test
-      # env:
-      #   AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
-      #   AWS_SECRET_ACCESS_KEY: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
-      #   AWS_DEFAULT_REGION: 'eu-west-2'
+    - name: run unit tests
       run: |
         npm i
         npm run test
-    - name: lint
+    - name: check linting
       run: npm run lint
-
+    - name: setup AWS config
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: 'eu-west-2'
+    - name:
+      run: echo $AWS_DEFAULT_REGION
 # ToDo - deploy to dev & deploy to prod on tag
 
 # name: deploy to prod on tag
