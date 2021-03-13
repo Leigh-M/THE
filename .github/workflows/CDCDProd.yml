@@ -1,7 +1,7 @@
 name: Test and Lint CI
 on:
   push:
-    tags: **
+    - tags: *
 
 jobs:
   test_and_lint:
