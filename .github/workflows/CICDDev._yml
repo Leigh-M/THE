@@ -1,22 +1,22 @@
-# name: Test and Lint CI
-# on:
-#   push:
-#     branches: [ master ]
-#   pull_request:
-#     branches: [ master ]
+name: Test and Lint CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
-# jobs:
-#   test_and_lint:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - name: Checkout commit
-#       uses: actions/checkout@v2
-#     - name: install dependencies
-#       run: npm i
-#     - name: run unit tests
-#       run: npm run test
-#     - name: check linting
-#       run: npm run lint
+jobs:
+  test_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v2
+    - name: install dependencies
+      run: npm i
+    - name: run unit tests
+      run: npm run test
+    - name: check linting
+      run: npm run lint
 
 #   deploy:
 #     needs: [test_and_lint]
