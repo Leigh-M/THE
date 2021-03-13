@@ -17,9 +17,6 @@ jobs:
         npm run test
     - name: check linting
       run: npm run lint
-    - name: build
-      run: npm run build
-
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,7 +35,7 @@ jobs:
         AWS_STACK_NAME: THE
         AWS_REGION: 'eu-west-2'
         AWS_DEPLOY_BUCKET: 'the-artifacts'
-        CAPABILITIES: 'CAPABILITY_IAM'
+        CAPABILITIES: 'CAPABILITY_NAMED_IAM'
 
 # ToDo - deploy to dev & deploy to prod on tag
 
