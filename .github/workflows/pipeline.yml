@@ -37,7 +37,8 @@ jobs:
         TEMPLATE: 'template.yaml'
         AWS_STACK_NAME: THE
         AWS_REGION: 'eu-west-2'
-        AWS_DEPLOY_BUCKET: the-artifacts
+        AWS_DEPLOY_BUCKET: 'the-artifacts'
+        CAPABILITIES: 'CAPABILITY_IAM'
 
 # ToDo - deploy to dev & deploy to prod on tag
 
