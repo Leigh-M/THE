@@ -28,20 +28,18 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '14.x'
-    # - name: setup AWS config
     - run: npm i
-    - run: echo 'Hello! =====> '
-
-    #   env:
-    #     AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
-    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
-    #     AWS_DEFAULT_REGION: 'eu-west-2'
-    # - uses: r0zar/sam-deploy-action@v1.4
-    #   env:
-    #     TEMPLATE: 'template.yaml'
-    #     AWS_STACK_NAME: THE
-    #     AWS_REGION: 'eu-west-2'
-    #     AWS_DEPLOY_BUCKET: the-artifacts
+    - name: Setup AWS config
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: 'eu-west-2'
+    - uses: r0zar/sam-deploy-action@v1.4
+      env:
+        TEMPLATE: 'template.yaml'
+        AWS_STACK_NAME: THE
+        AWS_REGION: 'eu-west-2'
+        AWS_DEPLOY_BUCKET: the-artifacts
 
 # ToDo - deploy to dev & deploy to prod on tag
 
