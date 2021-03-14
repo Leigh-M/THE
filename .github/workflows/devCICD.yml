@@ -1,0 +1,42 @@
+name: Test, Lint & Deploy to Dev
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v2
+    - name: install dependencies
+      run: npm i
+    - name: run unit tests
+      run: npm run test
+    - name: check linting
+      run: npm run lint
+
+  dev_deploy:
+    needs: [test_and_lint]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm i
+    - run: npm run build
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.PERSONAL_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.PERSONAL_AWS_SECRET_ACCESS_KEY }}
+        aws-region: 'eu-west-2'
+    - name: package and upload built artifact to AWS
+      run: npm run package
+    - name: Deploy to AWS CloudFormation
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: 'THE'
+        template: templateOut.yaml
+        capabilities: 'CAPABILITY_NAMED_IAM'
+        # parameter-overrides: "MyParam1=myValue,MyParam2="
