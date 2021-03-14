@@ -33,7 +33,7 @@ jobs:
         aws-region: 'eu-west-2'
     - name: package and upload built artifact to AWS
       run: npm run package
-    - name: Deploy to AWS CloudFormation
+    - name: Deploy to AWS via CloudFormation (Github verified publisher)
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
         name: 'THE'
